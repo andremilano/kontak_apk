@@ -1,16 +1,19 @@
 <resources>
     <string name="app_name">List Kontak</string>
     <string name="list_kosong">Belum ada data</string>
-    <string name="tambah_mhs">tambah Kontak</string>
+    <string name="tambah_kontak">tambah Kontak</string>
     <string name="x_diklik">%1$s diklik!</string>
     <string name="belum_bisa">Belum bisa tambah catatan</string>
-    <string name="nama_mhs">Nama Kontak</string>
-    <string name="nim_mhs">Nomor HP</string>
-    <string name="kelas_mhs">Kategori</string>
+    <string name="nama_kontak">Nama Kontak</string>
+    <string name="nomor_kontak">Nomor HP</string>
+    <string name="kategori_kontak">Kategori</string>
     <string name="edit_mhs">Edit Kontak</string>
     <string name="kembali">kembali</string>
     <string name="simpan">Simpan</string>
     <string name="invalid">Semua Field harus terisi</string>
     <string name="lainnya">Opsi Lainnya</string>
     <string name="hapus">Hapus Kontak</string>
+    <string name="pesan_hapus">Hapus Kontak ini?</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_batal">Batal</string>
 </resources>

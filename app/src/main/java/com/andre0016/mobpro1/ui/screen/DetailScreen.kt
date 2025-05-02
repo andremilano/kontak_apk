@@ -61,6 +61,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
     var nama by remember { mutableStateOf("") }
     var nomor by remember { mutableStateOf("") }
     var kategori by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         if(id == null) return@LaunchedEffect
@@ -86,7 +87,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                 },
                 title = {
                     if(id == null)
-                        Text(text = stringResource(R.string.tambah_mhs))
+                        Text(text = stringResource(R.string.tambah_kontak))
                     else
                         Text(text = stringResource(R.string.edit_mhs))
                 },
@@ -118,15 +119,14 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                     }
                     if (id != null) {
                         DeleteAction {
-                            viewModel.delete(id)
-                            navController.popBackStack()
+                            showDialog = true
                         }
                     }
                 }
             )
         }
     ) { padding ->
-        FormCatatan(
+        FormKontak(
             nama = nama,
             onTitleChange = { nama = it },
             nomor = nomor,
@@ -135,6 +135,14 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
             onKategoriChange = { kategori = it },
             modifier = Modifier.padding(padding)
         )
+        if(id != null && showDialog) {
+            DisplayAlertDialog(
+                onDismissRequest = { showDialog = false}) {
+                showDialog = false
+                viewModel.delete(id)
+                navController.popBackStack()
+            }
+        }
     }
 }
 
@@ -163,7 +171,7 @@ fun DeleteAction(delete: () -> Unit) {
 }
 
 @Composable
-fun FormCatatan(
+fun FormKontak(
     nama: String, onTitleChange: (String) -> Unit,
     nomor: String, onDescChange: (String) -> Unit,
     kategoriDipilih: String, onKategoriChange: (String) -> Unit,
@@ -176,7 +184,7 @@ fun FormCatatan(
         OutlinedTextField(
             value = nama,
             onValueChange = { onTitleChange(it) },
-            label = { Text(text = stringResource(R.string.nama_mhs)) },
+            label = { Text(text = stringResource(R.string.nama_kontak)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -187,7 +195,7 @@ fun FormCatatan(
         OutlinedTextField(
             value = nomor,
             onValueChange = { onDescChange(it) },
-            label = { Text(text = stringResource(R.string.nim_mhs)) },
+            label = { Text(text = stringResource(R.string.nomor_kontak)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
@@ -217,7 +225,7 @@ fun KategoriRadioGroup(
             .padding(vertical = 8.dp)
     ) {
         Text(
-            text = stringResource(R.string.kelas_mhs),
+            text = stringResource(R.string.kategori_kontak),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
         )
