@@ -6,12 +6,10 @@ import com.andre0016.mobpro1.database.KontakDao
 import com.andre0016.mobpro1.model.Kontak
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class DetailViewModel(private val dao: KontakDao) : ViewModel() {
 
-    private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+    //private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
 
     fun insert(nomor: String, nama: String, kelas: String) {
         val mahasiswa = Kontak(
