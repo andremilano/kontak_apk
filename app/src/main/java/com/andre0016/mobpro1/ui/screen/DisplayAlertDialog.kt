@@ -2,9 +2,11 @@ package com.andre0016.mobpro1.ui.screen
 
 import android.content.res.Configuration
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.andre0016.mobpro1.R
@@ -19,15 +21,22 @@ fun DisplayAlertDialog(
         text = { Text(text = stringResource(R.string.pesan_hapus)) },
         confirmButton = {
             TextButton(onClick = { onConfirmation() }) {
-                Text(text = stringResource(R.string.tombol_hapus))
+                Text(
+                    text = stringResource(R.string.tombol_hapus),
+                    color = Color.Red,
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = { onDismissRequest() }) {
-                Text(text = stringResource(R.string.tombol_batal))
+                Text(
+                    text = stringResource(R.string.tombol_batal),
+                    color = Color.Black,
+                )
             }
         },
-        onDismissRequest = { onDismissRequest() }
+        onDismissRequest = { onDismissRequest() },
+        containerColor = MaterialTheme.colorScheme.primary
     )
 
 }
