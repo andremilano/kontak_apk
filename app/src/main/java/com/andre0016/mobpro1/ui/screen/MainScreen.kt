@@ -16,9 +16,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -32,8 +35,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,8 +63,22 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavHostController) {
-    val dataStore = SettingsDataStore(LocalContext.current)
+    val context = LocalContext.current
+    val dataStore = SettingsDataStore(context)
+
     val showList by dataStore.layoutFlow.collectAsState(true)
+    val themeColor by dataStore.themeColorFlow.collectAsState("Blue")
+    val expanded = remember { mutableStateOf(false) }
+
+    val colorOptions = listOf("Red", "Blue", "Green", "Yellow")
+    val colorMap = mapOf(
+        "Red" to Color(0xFFFFB6C1), // Light pink pastel
+        "Blue" to Color(0xFFADD8E6), // Light blue pastel
+        "Green" to Color(0xFF98FB98), // Pale green pastel
+        "Yellow" to Color(0xFFFFE4B5) // Moccasin pastel yellow
+    )
+
+    val selectedColor = colorMap[themeColor] ?: Color.Blue
 
     Scaffold(
         topBar = {
@@ -67,7 +87,7 @@ fun MainScreen(navController: NavHostController) {
                     Text(text = stringResource(R.string.app_name))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = selectedColor  // Mengubah background TopAppBar
                 ),
                 actions = {
                     IconButton(onClick = {
@@ -84,9 +104,34 @@ fun MainScreen(navController: NavHostController) {
                                 if (showList) R.string.grid
                                 else R.string.list
                             ),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = Color.Black  // Menjaga warna ikon tetap hitam
                         )
+                    }
 
+                    // Color Picker
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Pilih Tema",
+                            tint = Color.Black  // Menjaga warna ikon tetap hitam
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false }
+                    ) {
+                        colorOptions.forEach { color ->
+                            DropdownMenuItem(
+                                text = { Text(color) },
+                                onClick = {
+                                    expanded.value = false
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        dataStore.saveThemeColor(color)
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             )
@@ -95,12 +140,13 @@ fun MainScreen(navController: NavHostController) {
             FloatingActionButton(
                 onClick = {
                     navController.navigate(Screen.FormBaru.route)
-                }
+                },
+                containerColor = selectedColor  // Mengubah background FAB
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(R.string.belum_bisa),
-                    tint = MaterialTheme.colorScheme.primary
+                    contentDescription = stringResource(R.string.tambah_kontak),
+                    tint = Color.Black  // Menjaga warna ikon tetap hitam
                 )
             }
         }

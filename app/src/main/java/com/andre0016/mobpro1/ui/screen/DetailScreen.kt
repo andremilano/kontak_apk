@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -81,7 +82,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.kembali),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = Color.Black
                         )
                     }
                 },
@@ -92,7 +93,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                         Text(text = stringResource(R.string.edit_mhs))
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = MaterialTheme.colorScheme.primary,
                 ),
                 actions = {
                     IconButton(onClick = {
@@ -114,7 +115,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
                             contentDescription = stringResource(R.string.simpan),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = Color.Black
                         )
                     }
                     if (id != null) {
@@ -153,7 +154,7 @@ fun DeleteAction(delete: () -> Unit) {
         Icon(
             imageVector = Icons.Filled.MoreVert,
             contentDescription = stringResource(R.string.lainnya),
-            tint = MaterialTheme.colorScheme.primary
+            tint = Color.Black
         )
         DropdownMenu(
             expanded = expanded,
