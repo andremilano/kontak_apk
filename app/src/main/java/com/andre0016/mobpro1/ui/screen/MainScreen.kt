@@ -112,7 +112,7 @@ fun MainScreen(navController: NavHostController) {
                     IconButton(onClick = { expanded.value = true }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
-                            contentDescription = "Pilih Tema",
+                            contentDescription = stringResource(R.string.tema),
                             tint = Color.Black  // Menjaga warna ikon tetap hitam
                         )
                     }
